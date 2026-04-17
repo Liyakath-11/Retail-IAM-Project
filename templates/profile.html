@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="brand">&#128274; Retail Security</div>
+        <div class="nav-right">
+            <span>&#128100; {{ user }} (Customer)</span>
+            <a href="/dashboard" style="font-size:13px;color:#4facfe;margin:0;display:inline;">&larr; Dashboard</a>
+            <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+    </div>
+    <div class="page">
+
+        <div class="welcome-bar">
+            <div>
+                <h2>My Profile</h2>
+                <p>View and update your account details.</p>
+            </div>
+        </div>
+
+        <div class="card" style="max-width:500px;width:100%;">
+            {% if error %} {% if "successfully" in error %}
+            <div class="alert alert-success">&#10003; {{ error }}</div>
+            {% else %}
+            <div class="alert alert-error">&#10060; {{ error }}</div>
+            {% endif %} {% endif %}
+
+            <!-- Profile Info -->
+            <table style="width:100%;margin:0 0 16px 0;box-shadow:none;font-size:13px;">
+                <tr>
+                    <td style="color:#888;border:none;padding:8px 0;width:110px;">Username</td>
+                    <td style="border:none;padding:8px 0;"><strong>{{ user_data[0] }}</strong></td>
+                </tr>
+                <tr>
+                    <td style="color:#888;border:none;padding:8px 0;">Role</td>
+                    <td style="border:none;padding:8px 0;">{{ user_data[2] }}</td>
+                </tr>
+                <tr>
+                    <td style="color:#888;border:none;padding:8px 0;">Orders</td>
+                    <td style="border:none;padding:8px 0;">{{ order_count }}</td>
+                </tr>
+                <tr>
+                    <td style="color:#888;border:none;padding:8px 0;">Total Spent</td>
+                    <td style="border:none;padding:8px 0;">&#8377;{{ "%.0f"|format(total_spent) }}</td>
+                </tr>
+            </table>
+
+            <hr style="border:none;border-top:1px solid #eee;margin-bottom:16px;">
+
+            <!-- Email update form -->
+            <form method="POST" action="/profile">
+                <div style="margin-bottom:14px;">
+                    <label style="display:block;font-size:13px;color:#555;margin-bottom:4px;font-weight:600;">Email Address</label>
+                    <input type="email" name="email" value="{{ user_data[1] }}" required style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:6px;font-size:14px;font-family:Arial,Helvetica,sans-serif;">
+                </div>
+                <button type="submit" style="width:auto;padding:9px 22px;background:#4facfe;color:white;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:Arial,Helvetica,sans-serif;">
+        Update Email
+      </button>
+            </form>
+
+            <a href="/change_password" style="display:inline-block;margin-top:12px;font-size:13px;color:#4facfe;text-decoration:none;">
+      Change Password &rarr;
+    </a>
+        </div>
+
+    </div>
+</body>
+
+</html>

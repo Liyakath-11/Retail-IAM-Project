@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventory</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="navbar">
+  <div class="brand">&#128274; Retail Security</div>
+  <div class="nav-right">
+    <span>&#128100; {{ user }} (Staff)</span>
+    <a href="/staff" style="font-size:13px;color:#4facfe;margin:0;display:inline;">&#8592; Dashboard</a>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+<div class="page">
+
+  <div class="welcome-bar"><div><h2>Inventory</h2><p>{{ items|length }} products</p></div></div>
+  {% if low_stock %}<div class="alert alert-warn">&#9888; Low Stock: {% for i in low_stock %}{{ i[1] }}{% if not loop.last %}, {% endif %}{% endfor %}</div>{% endif %}
+  <div class="card">
+    <h3>Add New Product</h3>
+    <form method="POST" action="/inventory/add" class="form-row">
+      <div class="fg"><label>Product Name</label><input type="text" name="product_name" placeholder="e.g. Banana" required></div>
+      <div class="fg"><label>Category</label><input type="text" name="category" placeholder="e.g. Fruits" required></div>
+      <div class="fg"><label>Quantity</label><input type="number" name="quantity" placeholder="0" min="0" required></div>
+      <div class="fg"><label>Price (&#8377;)</label><input type="number" name="price" placeholder="0.00" step="0.01" required></div>
+      <div class="fg"><label>Low Stock Alert</label><input type="number" name="threshold" placeholder="5" value="5"></div>
+      <button type="submit" class="btn btn-blue" style="align-self:flex-end;width:auto;margin-top:0;padding:9px 18px;">Add</button>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Current Stock ({{ items|length }} products)</h3>
+    <table>
+      <thead><tr><th>#</th><th>Product</th><th>Category</th><th>Qty</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item[0] }}</td><td><strong>{{ item[1] }}</strong></td><td>{{ item[2] }}</td><td>{{ item[3] }}</td>
+          <td>&#8377;{{ "%.2f"|format(item[4]) }}</td>
+          <td>{% if item[3]==0 %}<span class="badge badge-danger">Out of Stock</span>{% elif item[3]<=item[5] %}<span class="badge badge-warn">Low Stock</span>{% else %}<span class="badge badge-ok">In Stock</span>{% endif %}</td>
+          <td><a href="/inventory/delete/{{ item[0] }}" class="btn btn-red" style="padding:3px 10px;font-size:12px;display:inline-block;margin:0;text-decoration:none;" onclick="return confirm('Delete {{ item[1] }}?')">Delete</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

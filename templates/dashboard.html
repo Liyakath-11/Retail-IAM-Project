@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="navbar">
+  <div class="brand">&#128274; Retail Security</div>
+  <div class="nav-right">
+    <span>&#128100; {{ user }} &nbsp;<strong>(Customer)</strong></span>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+<div class="page">
+
+  <div class="welcome-bar">
+    <div>
+      <h2>Welcome, {{ user }}!</h2>
+      <p>Manage your orders, profile and more.</p>
+    </div>
+    <span style="font-size:1.8rem;">&#128722;</span>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="num">{{ order_count }}</div><div class="lbl">My Orders</div></div>
+    <div class="stat-box"><div class="num">&#8377;{{ "%.0f"|format(total_spent) }}</div><div class="lbl">Total Spent</div></div>
+    <div class="stat-box"><div class="num">{{ score }}/100</div><div class="lbl">Reward Points</div></div>
+    <div class="stat-box"><div class="num">{{ open_complaints }}</div><div class="lbl">Open Complaints</div></div>
+    <div class="stat-box"><div class="num">{{ ann_count }}</div><div class="lbl">Announcements</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:18px;">
+    <h3>&#11088; Reward Score &mdash; {{ score }}/100
+      {% if score >= 80 %} (Gold Member &#127881;)
+      {% elif score >= 50 %} (Silver Member)
+      {% else %} &mdash; Keep shopping!
+      {% endif %}
+    </h3>
+    <div style="background:#e0e0e0;border-radius:4px;height:10px;overflow:hidden;">
+      <div style="width:{{ score }}%;height:100%;background:#4facfe;"></div>
+    </div>
+  </div>
+
+  <div class="module-grid">
+    <a href="/my_orders"       class="module-card"><div class="mc-icon">&#128717;</div><h4>My Orders</h4><p>Place orders and view history.</p></a>
+    <a href="/profile"         class="module-card"><div class="mc-icon">&#128100;</div><h4>My Profile</h4><p>View and update your details.</p></a>
+    <a href="/change_password" class="module-card"><div class="mc-icon">&#128274;</div><h4>Change Password</h4><p>Update your password.</p></a>
+    <a href="/my_announcements"class="module-card"><div class="mc-icon">&#128227;</div><h4>Announcements</h4><p>Latest store updates.</p></a>
+    <a href="/complaints"      class="module-card"><div class="mc-icon">&#128203;</div><h4>Complaint Box</h4><p>Submit and track complaints.</p></a>
+  </div>
+</div>
+</body>
+</html>

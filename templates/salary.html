@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary History</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="navbar">
+  <div class="brand">&#128274; Retail Security</div>
+  <div class="nav-right">
+    <span>&#128100; {{ user }} (Staff)</span>
+    <a href="/staff" style="font-size:13px;color:#4facfe;margin:0;display:inline;">&#8592; Dashboard</a>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+<div class="page">
+
+  <div class="welcome-bar"><div><h2>Salary History</h2><p>{{ user }}</p></div></div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="num">{{ salary_list|length }}</div><div class="lbl">Months on Record</div></div>
+    <div class="stat-box"><div class="num">&#8377;{{ "%.0f"|format(total_earned) }}</div><div class="lbl">Total Earned</div></div>
+  </div>
+  <div class="card">
+    <h3>Monthly Salary Slips</h3>
+    {% if salary_list %}
+    <table>
+      <thead><tr><th>#</th><th>Month</th><th>Amount</th><th>Paid On</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for s in salary_list %}
+        <tr>
+          <td>{{ loop.index }}</td><td><strong>{{ s[2] }}</strong></td>
+          <td>&#8377;{{ "%.2f"|format(s[3]) }}</td><td>{{ s[5] or '—' }}</td>
+          <td>{% if s[4]=='Paid' %}<span class="badge badge-ok">Paid</span>{% else %}<span class="badge badge-warn">Pending</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<p style="color:#aaa;font-size:13px;padding:16px 0;text-align:center;">No records available.</p>{% endif %}
+  </div>
+</div>
+</body>
+</html>

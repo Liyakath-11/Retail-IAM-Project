@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Announcements</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="navbar">
+  <div class="brand">&#128274; Retail Security</div>
+  <div class="nav-right">
+    <span>&#128100; {{ user }} (Customer)</span>
+    <a href="/dashboard" style="font-size:13px;color:#4facfe;margin:0;display:inline;">&#8592; Dashboard</a>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+<div class="page">
+
+  <div class="welcome-bar"><div><h2>Announcements</h2><p>{{ announcements|length }} post(s)</p></div></div>
+  {% if announcements %}
+    {% for a in announcements %}
+    <div class="card" style="margin-bottom:12px;border-left:4px solid #4facfe;">
+      <strong style="font-size:14px;color:#333;">{{ a[1] }}</strong>
+      <p style="font-size:13px;color:#555;margin:8px 0;line-height:1.6;">{{ a[2] }}</p>
+      <p style="font-size:11px;color:#aaa;">Posted by {{ a[3] }} &nbsp;|&nbsp; {{ a[4] }}</p>
+    </div>
+    {% endfor %}
+  {% else %}
+  <div class="card" style="text-align:center;color:#aaa;padding:32px;"><p style="font-size:13px;">No announcements yet.</p></div>
+  {% endif %}
+</div>
+</body>
+</html>

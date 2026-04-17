@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complaints</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="navbar">
+  <div class="brand">&#128274; Retail Security</div>
+  <div class="nav-right">
+    <span>&#128100; {{ user }} (Staff)</span>
+    <a href="/staff" style="font-size:13px;color:#4facfe;margin:0;display:inline;">&#8592; Dashboard</a>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+<div class="page">
+
+  <div class="welcome-bar"><div><h2>Customer Complaints</h2><p>{{ complaints|length }} total</p></div></div>
+  <div class="card">
+    {% if complaints %}
+    <table>
+      <thead><tr><th>#</th><th>Customer</th><th>Subject</th><th>Message</th><th>Submitted</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody>
+        {% for c in complaints %}
+        <tr>
+          <td>{{ c[0] }}</td><td><strong>{{ c[1] }}</strong></td><td>{{ c[2] }}</td>
+          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ c[3] }}</td>
+          <td>{{ c[5] }}</td>
+          <td>{% if c[4]=='Resolved' %}<span class="badge badge-ok">Resolved</span>{% else %}<span class="badge badge-warn">Open</span>{% endif %}</td>
+          <td>{% if c[4]=='Open' %}<a href="/resolve_complaint/{{ c[0] }}" class="btn btn-green" style="padding:3px 10px;font-size:12px;display:inline-block;margin:0;text-decoration:none;">Resolve</a>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<p style="color:#aaa;font-size:13px;padding:16px 0;text-align:center;">No complaints yet.</p>{% endif %}
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(120deg, #4facfe, #00f2fe);
+            padding: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .split {
+            display: flex;
+            flex-direction: row;
+            width: 780px;
+            min-height: 460px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .left {
+            width: 42%;
+            background: #4facfe;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .left h2 {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .left .msg {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+            line-height: 1.75;
+        }
+        
+        .left .foot {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11px;
+        }
+        
+        .right {
+            width: 58%;
+            background: white;
+            padding: 40px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .right h3 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .right .sub {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+        
+        .error-box {
+            background: #fff0f0;
+            border: 1px solid #f5c6c6;
+            border-radius: 6px;
+            color: #c62828;
+            font-size: 13px;
+            padding: 9px 12px;
+            margin-bottom: 14px;
+        }
+        
+        label {
+            display: block;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            margin-top: 14px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        input:focus {
+            border-color: #4facfe;
+            outline: none;
+        }
+        
+        input::placeholder {
+            color: #bbb;
+        }
+        
+        button {
+            width: 100%;
+            padding: 11px;
+            margin-top: 18px;
+            border: none;
+            border-radius: 6px;
+            background: #4facfe;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        button:hover {
+            background: #3a8ee6;
+        }
+        
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 14px;
+        }
+        
+        .links a {
+            font-size: 13px;
+            color: #4facfe;
+            text-decoration: none;
+            display: inline;
+            margin: 0;
+        }
+        
+        .links a:hover {
+            text-decoration: underline;
+        }
+        
+        .sep {
+            color: #ddd;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="split">
+        <div class="left">
+            <div>
+                <h2>Welcome !</h2>
+                <p class="msg">
+                    We are committed to keeping your shopping experience safe and secure.<br><br> Our platform protects every customer, staff member, and administrator with verified identity checks before granting access.<br><br> Shop with confidence
+                    — your account and personal details are always in safe hands with us.
+                </p>
+            </div>
+            <div class="foot">&copy; 2026 Retail Security System</div>
+        </div>
+        <div class="right">
+            <h3>&#128274; Login</h3>
+            <p class="sub">Sign in to your account</p>
+            {% if error %}
+            <div class="error-box">&#10060; {{ error }}</div>
+            {% endif %}
+            <form method="POST" action="/login">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter your username" required autofocus>
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+                <button type="submit">Login</button>
+            </form>
+            <div class="links">
+                <a href="/signup">Create Account</a>
+                <span class="sep">|</span>
+                <a href="/forgot">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

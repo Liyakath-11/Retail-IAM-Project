@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="navbar">
+  <div class="brand">&#128274; Retail Security</div>
+  <div class="nav-right">
+    <span>&#128100; {{ user }} (Staff)</span>
+    <a href="/staff" style="font-size:13px;color:#4facfe;margin:0;display:inline;">&#8592; Dashboard</a>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+<div class="page">
+
+  <div class="welcome-bar"><div><h2>Performance Reports</h2><p>{{ user }}</p></div></div>
+  <div class="stats-row">
+    <div class="stat-box"><div style="font-size:11px;color:#aaa;margin-bottom:4px;">TODAY</div><div class="num">&#8377;{{ "%.0f"|format(daily[0] or 0) }}</div><div class="lbl">{{ daily[1] or 0 }} transactions</div></div>
+    <div class="stat-box"><div style="font-size:11px;color:#aaa;margin-bottom:4px;">THIS WEEK</div><div class="num">&#8377;{{ "%.0f"|format(weekly[0] or 0) }}</div><div class="lbl">{{ weekly[1] or 0 }} transactions</div></div>
+    <div class="stat-box"><div style="font-size:11px;color:#aaa;margin-bottom:4px;">THIS MONTH</div><div class="num">&#8377;{{ "%.0f"|format(monthly[0] or 0) }}</div><div class="lbl">{{ monthly[1] or 0 }} transactions</div></div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-box" style="border-top-color:#fb8c00;"><div class="num">{{ low_stock_count }}</div><div class="lbl">Low/Out of Stock</div></div>
+    <div class="stat-box" style="border-top-color:#e53935;"><div class="num">{{ pending_returns }}</div><div class="lbl">Pending Returns</div></div>
+  </div>
+  <div class="card">
+    <h3>Top Selling Products</h3>
+    {% if top_products %}
+    <table>
+      <thead><tr><th>Rank</th><th>Product</th><th>Units Sold</th><th>Revenue (&#8377;)</th></tr></thead>
+      <tbody>{% for p in top_products %}<tr><td>{{ loop.index }}</td><td><strong>{{ p[0] }}</strong></td><td>{{ p[1] }}</td><td>&#8377;{{ "%.2f"|format(p[2]) }}</td></tr>{% endfor %}</tbody>
+    </table>
+    {% else %}<p style="color:#aaa;font-size:13px;padding:16px 0;text-align:center;">No sales data yet.</p>{% endif %}
+  </div>
+</div>
+</body>
+</html>

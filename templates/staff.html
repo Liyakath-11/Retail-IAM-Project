@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="navbar">
+  <div class="brand">&#128274; Retail Security</div>
+  <div class="nav-right">
+    <span>&#128100; {{ user }} &nbsp;<strong>(Staff)</strong></span>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+<div class="page">
+
+  <div class="welcome-bar">
+    <div>
+      <h2>Welcome, {{ user }}!</h2>
+      <p>Here is your work overview for today.</p>
+    </div>
+    <span style="font-size:1.8rem;">&#127978;</span>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="num">{{ stock_count }}</div><div class="lbl">Products in Stock</div></div>
+    <div class="stat-box"><div class="num">{{ low_stock }}</div><div class="lbl">Low Stock Alerts</div></div>
+    <div class="stat-box"><div class="num">{{ open_complaints }}</div><div class="lbl">Open Complaints</div></div>
+    <div class="stat-box"><div class="num">{{ ann_count }}</div><div class="lbl">Announcements</div></div>
+  </div>
+
+  <div class="module-grid">
+    <a href="/inventory"       class="module-card"><div class="mc-icon">&#128230;</div><h4>Inventory</h4><p>Manage product stock.</p></a>
+    <a href="/reports"         class="module-card"><div class="mc-icon">&#128202;</div><h4>Reports</h4><p>Daily/weekly/monthly sales.</p></a>
+    <a href="/announcements"   class="module-card"><div class="mc-icon">&#128227;</div><h4>Announcements</h4><p>Management updates.</p></a>
+    <a href="/work_hours"      class="module-card"><div class="mc-icon">&#128336;</div><h4>Working Hours</h4><p>Clock in and out.</p></a>
+    <a href="/salary"          class="module-card"><div class="mc-icon">&#128176;</div><h4>Salary History</h4><p>Monthly salary slips.</p></a>
+    <a href="/staff_complaints"class="module-card"><div class="mc-icon">&#128203;</div><h4>Complaints</h4><p>View and resolve complaints.</p></a>
+    <a href="/change_password" class="module-card"><div class="mc-icon">&#128274;</div><h4>Change Password</h4><p>Update your password.</p></a>
+  </div>
+</div>
+</body>
+</html>

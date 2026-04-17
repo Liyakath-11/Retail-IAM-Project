@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Orders</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="navbar">
+  <div class="brand">&#128274; Retail Security</div>
+  <div class="nav-right">
+    <span>&#128100; {{ user }} (Customer)</span>
+    <a href="/dashboard" style="font-size:13px;color:#4facfe;margin:0;display:inline;">&#8592; Dashboard</a>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+<div class="page">
+
+  <div class="welcome-bar"><div><h2>My Orders</h2><p>Place orders and view your history.</p></div></div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="num">{{ order_count }}</div><div class="lbl">Total Orders</div></div>
+    <div class="stat-box"><div class="num">&#8377;{{ "%.0f"|format(total_spent) }}</div><div class="lbl">Total Spent</div></div>
+    <div class="stat-box"><div class="num">{{ score }}/100</div><div class="lbl">Reward Points</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px;">
+    <p style="font-size:12px;color:#888;margin-bottom:6px;">Reward Score &mdash;
+    {% if score >= 80 %}Gold Member &#127881;{% elif score >= 50 %}Silver Member{% else %}Keep shopping!{% endif %}</p>
+    <div style="background:#e0e0e0;border-radius:4px;height:8px;overflow:hidden;"><div style="width:{{ score }}%;height:100%;background:#4facfe;"></div></div>
+  </div>
+
+  <div class="card">
+    <h3>Place New Order</h3>
+    {% if error %}<div class="alert alert-error">&#10060; {{ error }}</div>{% endif %}
+    <form method="POST" action="/my_orders" class="form-row">
+      <div class="fg" style="flex:2;">
+        <label>Select Product</label>
+        <select name="product_name" required>
+          <option value="" disabled selected>Choose a product...</option>
+          {% for p in products %}<option value="{{ p[0] }}">{{ p[0] }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="fg" style="flex:0.5;">
+        <label>Quantity</label>
+        <input type="number" name="quantity" min="1" value="1" required>
+      </div>
+      <button type="submit" class="btn btn-blue" style="align-self:flex-end;width:auto;margin-top:0;padding:9px 18px;">Order</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Order History</h3>
+    {% if orders %}
+    <table>
+      <thead><tr><th>#</th><th>Product</th><th>Qty</th><th>Total</th><th>Date</th><th>Status</th><th>Invoice</th></tr></thead>
+      <tbody>
+        {% for o in orders %}
+        <tr>
+          <td>{{ o[0] }}</td><td><strong>{{ o[2] }}</strong></td><td>{{ o[3] }}</td>
+          <td>&#8377;{{ "%.2f"|format(o[4]) }}</td><td>{{ o[5] }}</td>
+          <td><span class="badge badge-ok">{{ o[6] }}</span></td>
+          <td><a href="/invoice/{{ o[0] }}" class="btn btn-blue" style="padding:3px 10px;font-size:12px;display:inline-block;margin:0;">View</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<p style="color:#aaa;padding:16px;text-align:center;font-size:13px;">No orders yet.</p>{% endif %}
+  </div>
+</div>
+</body>
+</html>

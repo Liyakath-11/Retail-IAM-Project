@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice #{{ order[0] }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+body { display:flex; align-items:center; justify-content:center; min-height:100vh; background:linear-gradient(120deg,#4facfe,#00f2fe); padding:20px; font-family:Arial,Helvetica,sans-serif; }
+.inv { background:white; border-radius:10px; width:100%; max-width:440px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.15); }
+.inv-head { background:#4facfe; padding:22px 28px; text-align:center; color:white; }
+.inv-head h1 { font-size:1.2rem; font-weight:700; margin-bottom:2px; }
+.inv-head p  { font-size:12px; opacity:0.85; }
+.inv-body { padding:22px 28px; }
+.inv-row { display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid #f0f0f0; font-size:13px; }
+.inv-row:last-child { border-bottom:none; }
+.inv-row .lbl { color:#888; }
+.inv-row .val { color:#222; font-weight:600; }
+.inv-total { background:#f0f8ff; border:1px solid #b3d9ff; border-radius:6px; padding:12px 16px; margin:14px 0; display:flex; justify-content:space-between; align-items:center; }
+.inv-total .lbl { font-weight:700; color:#333; font-size:0.95rem; }
+.inv-total .val { font-size:1.3rem; font-weight:700; color:#4facfe; }
+.inv-foot { padding:16px 28px; border-top:1px solid #f0f0f0; display:flex; gap:10px; justify-content:center; }
+.btn-print { background:#4facfe; color:white; padding:9px 22px; border:none; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; font-family:Arial,Helvetica,sans-serif; }
+.btn-back  { background:#f0f0f0; color:#555; padding:9px 22px; border:none; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; text-decoration:none; display:inline-block; font-family:Arial,Helvetica,sans-serif; }
+.btn-back:hover { background:#e0e0e0; text-decoration:none; }
+@media print { body { background:white; } .inv-foot { display:none; } .inv { box-shadow:none; border-radius:0; } }
+</style>
+</head>
+<body>
+<div class="inv">
+  <div class="inv-head">
+    <h1>&#128230; Invoice</h1>
+    <p>Retail Security System &mdash; Official Bill</p>
+  </div>
+  <div class="inv-body">
+    <div class="inv-row"><span class="lbl">Invoice No.</span><span class="val">#{{ "%04d"|format(order[0]) }}</span></div>
+    <div class="inv-row"><span class="lbl">Customer</span><span class="val">{{ order[1] }}</span></div>
+    <div class="inv-row"><span class="lbl">Product</span><span class="val">{{ order[2] }}</span></div>
+    <div class="inv-row"><span class="lbl">Quantity</span><span class="val">{{ order[3] }} unit(s)</span></div>
+    <div class="inv-row"><span class="lbl">Unit Price</span><span class="val">&#8377;{{ "%.2f"|format(order[4] / order[3]) }}</span></div>
+    <div class="inv-row"><span class="lbl">Order Date</span><span class="val">{{ order[5] }}</span></div>
+    <div class="inv-row"><span class="lbl">Status</span><span class="val" style="color:#2e7d32;">&#10003; {{ order[6] }}</span></div>
+    <div class="inv-total">
+      <span class="lbl">Total Amount</span>
+      <span class="val">&#8377;{{ "%.2f"|format(order[4]) }}</span>
+    </div>
+    <p style="text-align:center;font-size:12px;color:#aaa;">Thank you for shopping with us!</p>
+  </div>
+  <div class="inv-foot">
+    <button class="btn-print" onclick="window.print()">Print Invoice</button>
+    <a href="/my_orders" class="btn-back">&larr; Back</a>
+  </div>
+</div>
+</body>
+</html>

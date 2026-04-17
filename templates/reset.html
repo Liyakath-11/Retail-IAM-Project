@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Password</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script>document.addEventListener('DOMContentLoaded',function(){document.getElementById('cpwd').addEventListener('input',function(){var m=document.getElementById('match-msg');if(this.value===document.getElementById('pwd').value){m.style.color='#2e7d32';m.textContent='✅ Passwords match';}else{m.style.color='#c62828';m.textContent='❌ Do not match';}});});</script>
+</head>
+<body class="auth-body">
+<div class="container">
+  <h2>&#128274; Reset Password</h2>
+  <p class="sub">Create a new password</p>
+  {%- if error %}
+  <div class="error-box">&#10060; {{ error }}</div>
+  {%- endif %}
+  <form method="POST" action="/reset">
+  <label>New Password</label>
+  <input type="password" name="password" id="pwd" placeholder="Min 8 chars, uppercase + number" required autofocus>
+  <label>Confirm New Password</label>
+  <input type="password" name="confirm_password" id="cpwd" placeholder="Repeat new password" required>
+  <p id="match-msg" style="font-size:12px;margin-top:4px;min-height:14px;"></p>
+  <button type="submit">Reset Password</button>
+</form>
+<a href="/login">&larr; Back to Login</a>
+</div>
+</body>
+</html>

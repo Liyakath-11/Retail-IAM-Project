@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Box</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="brand">&#128274; Retail Security</div>
+        <div class="nav-right">
+            <span>&#128100; {{ user }} (Customer)</span>
+            <a href="/dashboard" style="font-size:13px;color:#4facfe;margin:0;display:inline;">&larr; Dashboard</a>
+            <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+    </div>
+    <div class="page">
+
+        <div class="welcome-bar">
+            <div>
+                <h2>Complaint Box</h2>
+                <p>{{ complaints|length }} complaint(s)</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Submit a Complaint</h3>
+            {% if error %} {% if "successfully" in error %}
+            <div class="alert alert-success">&#10003; {{ error }}</div>
+            {% else %}
+            <div class="alert alert-error">&#10060; {{ error }}</div>
+            {% endif %} {% endif %}
+            <form method="POST" action="/complaints">
+                <div style="margin-bottom:12px;">
+                    <label style="display:block;font-size:13px;color:#555;margin-bottom:4px;font-weight:600;">Subject</label>
+                    <input type="text" name="subject" placeholder="Brief description of your complaint" required style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:Arial,Helvetica,sans-serif;">
+                </div>
+                <div style="margin-bottom:14px;">
+                    <label style="display:block;font-size:13px;color:#555;margin-bottom:4px;font-weight:600;">Message</label>
+                    <textarea name="message" rows="4" placeholder="Describe your complaint in detail..." required style="width:100%;padding:10px 12px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:Arial,Helvetica,sans-serif;resize:vertical;"></textarea>
+                </div>
+                <button type="submit" style="width:auto;padding:9px 22px;background:#4facfe;color:white;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:Arial,Helvetica,sans-serif;">
+        Submit
+      </button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>My Complaints</h3>
+            {% if complaints %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in complaints %}
+                    <tr>
+                        <td>{{ c[0] }}</td>
+                        <td><strong>{{ c[2] }}</strong></td>
+                        <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ c[3] }}</td>
+                        <td>{{ c[5] }}</td>
+                        <td>
+                            {% if c[4] == 'Resolved' %}
+                            <span class="badge badge-ok">Resolved</span> {% else %}
+                            <span class="badge badge-warn">Open</span> {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="color:#aaa;font-size:13px;padding:16px 0;text-align:center;">No complaints yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+
+</html>

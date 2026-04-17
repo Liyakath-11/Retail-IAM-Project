@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Verification</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body class="auth-body">
+<div class="container">
+  <h2>&#128231; OTP Verification</h2>
+  <p class="sub">Enter the 6-digit code sent to your email</p>
+  {%- if error %}
+  <div class="error-box">&#10060; {{ error }}</div>
+  {%- endif %}
+  <form method="POST">
+  <label>OTP Code</label>
+  <input type="text" name="otp" class="otp-input" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" required autofocus>
+  <p style="font-size:12px;color:#aaa;margin-top:6px;text-align:center;">&#8987; Valid for 5 minutes</p>
+  <button type="submit">Verify OTP</button>
+</form>
+<a href="/login">&larr; Back to Login</a>
+</div>
+</body>
+</html>

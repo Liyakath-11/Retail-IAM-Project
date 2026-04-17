@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="navbar">
+  <div class="brand">&#128274; Retail Security</div>
+  <div class="nav-right">
+    <span>&#128100; Admin &nbsp;<strong>(Admin)</strong></span>
+    <a href="/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+<div class="page">
+  <div class="welcome-bar">
+    <div><h2>Admin Dashboard</h2><p>User management and security overview.</p></div>
+    <span style="font-size:1.8rem;">&#128737;</span>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="num">{{ total_users }}</div><div class="lbl">Total Users</div></div>
+    <div class="stat-box" style="border-top-color:#e53935;"><div class="num">{{ locked_users }}</div><div class="lbl">Locked Accounts</div></div>
+    <div class="stat-box" style="border-top-color:#fb8c00;"><div class="num">{{ failed_logins }}</div><div class="lbl">Failed Logins</div></div>
+  </div>
+
+  <div class="card">
+    <h3>&#128227; Post Announcement</h3>
+    <form method="POST" action="/announcements/add" class="form-row">
+      <div class="fg"><label>Title</label><input type="text" name="title" placeholder="Announcement title" required></div>
+      <div class="fg" style="flex:2;"><label>Message</label><input type="text" name="message" placeholder="Message" required></div>
+      <button type="submit" class="btn btn-blue" style="align-self:flex-end;padding:9px 18px;margin-top:0;width:auto;">Post</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>&#128101; Registered Users</h3>
+    <table>
+      <thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Attempts</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td><strong>{{ u[0] }}</strong></td>
+          <td>{{ u[1] }}</td>
+          <td><span class="badge badge-blue">{{ u[2] }}</span></td>
+          <td>{{ u[3] }} / 5</td>
+          <td>{% if u[4] %}<span class="badge badge-danger">Locked</span>{% else %}<span class="badge badge-ok">Active</span>{% endif %}</td>
+          <td>
+            {% if u[4] %}<a href="/unlock/{{ u[0] }}" class="btn btn-green btn-sm" style="padding:3px 10px;font-size:12px;">Unlock</a>{% endif %}
+            {% if u[0] != 'admin' %}<a href="/delete/{{ u[0] }}" class="btn btn-red btn-sm" style="padding:3px 10px;font-size:12px;" onclick="return confirm('Delete {{ u[0] }}?')">Delete</a>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>&#128220; Recent Login Activity</h3>
+    <table>
+      <thead><tr><th>Username</th><th>IP Address</th><th>Time</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for log in logs %}
+        <tr>
+          <td>{{ log[0] }}</td>
+          <td>{{ log[1] }}</td>
+          <td>{{ log[2] }}</td>
+          <td>{% if log[3]=='SUCCESS' %}<span class="badge badge-ok">Success</span>{% else %}<span class="badge badge-danger">Failed</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
